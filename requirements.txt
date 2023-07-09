@@ -1,0 +1,3 @@
+# Keep it simple. In a real world project there would be dev, production, and common requirements.
+django==4.2.3
+django-extensions==3.2.3
