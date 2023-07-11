@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load player %}
+
+{% block content %}
+<div id="board">
+  <!-- Game id {{ game.id }}-->
+  <p class="text-body-secondary">
+    You are player <i class="bi {{ player|icon_class_fill }}"></i>
+  </p>
+  <div id="boardContent" hx-get="/board/" hx-trigger="gameUpdated">
+    {% if game.is_complete %}
+      {% include 'game/complete.html' %}
+    {% elif game.is_match_making %}
+      {% include 'game/match_making.html' %}
+    {% else %}
+      {% include 'game/in_progress.html' %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+  <script>
+    window.addEventListener("load", (event) => {
+      const socket = new WebSocket("{{ websocket_url }}changes/");
+      socket.onmessage = (event) => {
+        data = JSON.parse(event.data);
+        console.log('onmessage:', data);
+        if (data['event'] === 'changed') {
+            console.log('changed')
+          htmx.trigger("#boardContent", "gameUpdated");
+        }
+      };
+      socket.onclose = (event) => {
+        console.log('onclose:', event.code, event.reason, event.wasClean);
+      };
+    });
+  </script>
+{% endblock %}

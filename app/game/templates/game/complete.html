@@ -1,0 +1,19 @@
+<p>
+  {% if game.winner %}
+    {% if game.winner == player %}
+      Player {{ player }} won.
+    {% else %}
+      Player {{ player }} lost.
+    {% endif %}
+  {% else %}
+    It's a draw!
+  {% endif %}
+</p>
+<div class="blurred">
+  {% include 'game/board.html' %}
+</div>
+
+<form method="post" action="{% url 'game:reset' %}" class="mt-3">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-primary">New Game</button>
+</form>

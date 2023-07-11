@@ -1,0 +1,13 @@
+<p>
+  {% if game.next_player == player %}
+    Make your move.
+  {% else %}
+    Wait for your opponent to make a move...
+  {% endif %}
+</p>
+{% include 'game/board.html' %}
+{% if error_message %}
+<div class="alert alert-warning" role="alert">
+  {{ error_message }}
+</div>
+{% endif %}

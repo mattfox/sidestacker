@@ -1,3 +1,8 @@
-# Keep it simple. In a real world project there would be dev, production, and common requirements.
+# Keep it simple. In a real world project there would be at least dev, production, and common requirements.
 django==4.2.3
 django-extensions==3.2.3
+django-environ==0.10.0
+psycopg2-binary
+sanic==23.3.0
+aiohttp==3.8.4
+aiopg==1.4.0

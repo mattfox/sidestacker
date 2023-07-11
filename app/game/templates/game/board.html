@@ -1,0 +1,31 @@
+{% load player %}
+
+{% with game.get_board as board %}
+  {% for row in board %}
+    <div class="row">
+      <div class="col">
+        <div class="d-flex justify-content-center">
+          {% for space in row %}
+            <div class="space p-1">
+              {% if space is None %}
+                <form hx-post="{% url 'game:move' %}" hx-target="#boardContent">
+                  {% csrf_token %}
+                  <input name="x" type="hidden" value="{{ forloop.counter0 }}">
+                  <input name="y" type="hidden" value="{{ forloop.parentloop.counter0 }}">
+                  <button type="submit" class="btn btn-secondary"><i class="bi bi-circle"></i></button>
+                </form>
+              {% else %}
+                <button type="button" class="btn {{ space|button_class }}"><i class="bi {{ space|icon_class }}"></i></button>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+        {% if form.non_field_errors %}
+          <div class="alert alert-warning" role="alert">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+{% endwith %}

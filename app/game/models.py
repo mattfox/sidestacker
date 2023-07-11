@@ -10,17 +10,17 @@ PLAYER_CHOICES = [
 
 class Game(models.Model):
     """
-    Game board is an (x, y) coordinate system with (0, 0) being the bottom-left corner.
-    (6, 6) represents the top-right corner. (Note this is different than the diagram in the requirements doc.)
+    Game board is an (x, y) coordinate system with (0, 0) being the top-left corner.
+    (6, 6) represents the bottom-right corner.
 
     y
-    6 _ _ _ _ _ _ _
-    5 _ _ _ _ _ _ _
-    4 _ _ _ _ _ _ _
-    3 _ _ _ _ _ _ _
-    2 _ _ _ _ _ _ _
-    1 _ _ _ _ _ _ _
     0 _ _ _ _ _ _ _
+    1 _ _ _ _ _ _ _
+    2 _ _ _ _ _ _ _
+    3 _ _ _ _ _ _ _
+    4 _ _ _ _ _ _ _
+    5 _ _ _ _ _ _ _
+    6 _ _ _ _ _ _ _
       0 1 2 3 4 5 6 x
 
     A space with no associated GameMove is empty.
@@ -65,7 +65,7 @@ class Game(models.Model):
             # Get existing moves
             moves = self.gamemove_set.all()
             for move in moves:
-                self._board[move.x_coord][move.y_coord] = move.player
+                self._board[move.y_coord][move.x_coord] = move.player
 
         return self._board
 
@@ -75,7 +75,7 @@ class Game(models.Model):
         """
         if player != self.next_player:
             # This is not the player you are looking for.
-            raise ValueError("The player is not the expected player.")
+            raise ValueError("It's not your turn.")
         if not self._valid_coordinates(x, y):
             raise ValueError("The coordinates aren't valid for the board.")
         if self.is_complete():
@@ -101,6 +101,9 @@ class Game(models.Model):
 
     def is_complete(self):
         return self.state == self.STATE_COMPLETED
+
+    def is_match_making(self):
+        return self.state == self.STATE_MATCH_MAKING
 
     def _record_move(self, player, x, y):
         """Save a GameMove object representing this and update _board."""
@@ -224,4 +227,4 @@ class GameMove(models.Model):
         ]
 
     def __str__(self):
-        return f"({self.x_coord}, {self.y_coord}) game {self.game.id}"
+        return f"Player {self.player}, ({self.x_coord}, {self.y_coord})"
