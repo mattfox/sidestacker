@@ -2,12 +2,10 @@ import asyncio
 import json
 
 import aiohttp
-import asyncpg_listen
-from sanic import Blueprint
-from sanic.log import logger
 import aiopg
 import psycopg2
-import asyncio
+from sanic import Blueprint
+from sanic.log import logger
 
 game_blueprint = Blueprint("Game")
 
