@@ -1,7 +1,5 @@
 # Side-Stacker
 
-[Requirements](https://docs.monadical.com/s/monadical-study-guide#Difficulty-Advanced-senior-full-stack-applicants)
-
 This uses Django for the backend, [Sanic](https://sanic.dev/en/) for websockets, a little bit of Javascript and [HTMX](https://htmx.org/) for the frontend, and PostgreSQL for the database and async notifications (SQLite would work just fine for the database except the interprocess communication uses Postgres LISTEN/NOTIFY).
 
 This is purposefully kept very simple- no Javascript build process and no static files to serve.
